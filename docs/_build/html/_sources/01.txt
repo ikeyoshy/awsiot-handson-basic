@@ -7,11 +7,11 @@
 
 **シナリオ1: センサーデータの送信**
 
-EdisonからAWS IoTのトピックに照度センサーのデータを送信し、AWS IoTでルールに基づきNoSQLデータベースDynamoDBへの保存を行います。また、しきい値を下回った場合、E-mailでアラートを送信するようにルールを設定します。本ハンズオンにより、センサーからのデータ取得および時系列データの保存、しきい値に対するアクションの手順を確認することができます。
+EdisonからAWS IoTのトピックに照度センサーのデータを送信し、AWS IoTでルールに基づきKinesisへデータを渡し、Lambdaへ送られ、Lambda関数から外部サービスのKintoneへデータを送信します。
 
 .. image:: images/senario1.png
 
-|           
+|
 
 **シナリオ2: アプリケーションからLEDをリモート制御**
 
@@ -19,7 +19,7 @@ WebアプリケーションからEdisonに接続されたLEDの点灯/消灯の�
 
 .. image:: images/senario2.png
 
-           
+
 
 利用するデバイス、アプリケーション、サービス
 ============================================
@@ -29,7 +29,7 @@ WebアプリケーションからEdisonに接続されたLEDの点灯/消灯の�
 インテル社が提供する開発用のシングルボードコンピュータです。本ハンズオンではセンサーからのデータ取得、AWS IoTへのデータ送信に利用します。
     http://www.intel.co.jp/content/www/jp/ja/do-it-yourself/edison.html
 
-|    
+|
 
 **Groveスターターキット**
 
@@ -37,7 +37,7 @@ Aruduinoなどの開発用ボードに接続可能なセンサーやケーブル
     http://www.seeedstudio.com/document/Grove%20Starter%20Kit.pdf
     http://www.seeedstudio.com/wiki/GROVE_System
 
-|    
+|
 
 **AWSアカウント**
 
@@ -45,14 +45,14 @@ AWSコマンドラインでiotおよびiot-dataを実行できるようにご利
 インストールの手順はこちらのとおりです。
     https://aws.amazon.com/jp/register-flow/
 
-|    
+|
 
 **AWS IoT**
 
 接続されたデバイスが安全かつ簡単にクラウドアプリケーションやその他のデバイスとやりとりするためのマネージド型プラットフォームです。本ハンズオンではデバイスからのデータ受信、デバイスのリモート制御などで利用します。
     https://aws.amazon.com/jp/iot/
 
-|    
+|
 
 **Amazon DynamoDB**
 
@@ -60,13 +60,10 @@ AWSコマンドラインでiotおよびiot-dataを実行できるようにご利
 
     https://aws.amazon.com/jp/dynamodb/
 
-|    
+|
 
 **Amazon CloudWatch**
 
 AWSクラウドリソースとAWSで実行するアプリケーションのモニタリングサービスです。メトリクスの収集、ログファイルの収集が可能です。本ハンズオンではCloudWatch Logsを利用してAWS IoTのログを収集、閲覧します。
 
     https://aws.amazon.com/jp/cloudwatch/
-
-
-

@@ -1,37 +1,31 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>5. センサーデータの送信 &#8212; awsiot-handson-fundamentals 0.0 ドキュメント</title>
-    
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <title>5. センサーデータの送信 &mdash; awsiot-handson-basic v0.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
+        URL_ROOT:    '#',
         VERSION:     '0.0',
-        COLLAPSE_INDEX: false,
+        COLLAPSE_MODINDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="検索" href="search.html" />
-    <link rel="top" title="awsiot-handson-fundamentals 0.0 ドキュメント" href="index.html" />
+    <link rel="top" title="awsiot-handson-basic v0.0 documentation" href="index.html" />
     <link rel="next" title="6. LEDのリモート制御" href="06.html" />
     <link rel="prev" title="4. AWS IoT基本設定" href="04.html" /> 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
+  <body>
+    <div class="related">
       <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -43,35 +37,63 @@
         <li class="right" >
           <a href="04.html" title="4. AWS IoT基本設定"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">awsiot-handson-fundamentals 0.0 ドキュメント</a> &#187;</li> 
+        <li><a href="index.html">awsiot-handson-basic v0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="id1">
 <h1>5. センサーデータの送信<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p>Intel Edisonに接続された照度センサーのデータをAWSの各サービスにストアします。
-EdisonはAWS IoTのトピックにデータをパブリッシュし、AWS IoTでルールに基づきDynamoDBへ保存します。使用するDynamoDBのテーブル&#8221;awsiot-handson-rawdata&#8221;は「3.ハンズオン準備」で作成したCloud Formationのスタックに含まれています。</p>
+<p>Intel Edisonに接続された照度センサーのデータを外部サービスのKintoneへ送信します。
+EdisonはAWS IoTのトピックにデータをパブリッシュし、AWS IoTでルールに基づきKinesisへデータを渡し、Lambdaへ送られ、Lambda関数が実行されます。</p>
 <img alt="_images/senario1.png" src="_images/senario1.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>センサーデータは以下のJSONフォーマットとします。</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>{
-  &quot;timestamp&quot;: &quot;2015-10-24T14:16:37.305Z&quot;, ←ISO8601形式
-  &quot;value&quot;: &quot;300&quot;                           ←アナログ値
-}
-</pre></div>
+<div class="highlight-python"><pre>{
+  "timestamp": "2015-10-24T14:16:37.305Z", ←ISO8601形式
+  "value": "300"                           ←アナログ値
+}</pre>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+<div class="section" id="kinesis">
+<h2>5.1. Kinesisストリームの作成<a class="headerlink" href="#kinesis" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>サービス：Kinesisへ移動します。</p>
+<img alt="_images/5-Kinesis-opening.png" src="_images/5-Kinesis-opening.png" />
+<p>[Streamに進む]を押して、Kinesis Stream設定画面へ移動します。</p>
+<p>スクリーンショットの赤枠で囲んだ部分について、以下の項目を入力します。
+任意の番号の部分は他のユーザと被らない数字を入力してください。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">設定項目</th>
+<th class="head">値</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>ストリーム名</td>
+<td>iot_sensor_stream&lt;任意の番号&gt;</td>
+</tr>
+<tr><td>シャード数</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<img alt="_images/5-Kinesis-Streams-create.png" src="_images/5-Kinesis-Streams-create.png" />
+<p>[ストリームの作成]をクリックします。</p>
+</div>
 <div class="section" id="aws-iot">
-<h2>5.1. AWS IoT ルールの作成<a class="headerlink" href="#aws-iot" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>5.2. AWS IoT ルールの作成<a class="headerlink" href="#aws-iot" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>メニューのRulesをクリックし[Create]をクリックします。</p>
 <img alt="_images/5-create-rule-1.png" src="_images/5-create-rule-1.png" />
 <div class="line-block">
@@ -81,28 +103,28 @@ EdisonはAWS IoTのトピックにデータをパブリッシュし、AWS IoTで
 任意の番号の部分は他のユーザと被らない数字を入力してください。</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="47%" />
-<col width="53%" />
+<col width="43%" />
+<col width="57%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">設定項目</th>
+<tr><th class="head">設定項目</th>
 <th class="head">値</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>Name</td>
-<td>SaveToDynamoDB&lt;任意の番号&gt;</td>
+<tr><td>Name</td>
+<td>SendtoKinesis&lt;任意の番号&gt;</td>
 </tr>
-<tr class="row-odd"><td>SQL Version</td>
+<tr><td>SQL Version</td>
 <td>2016-03-23</td>
 </tr>
-<tr class="row-even"><td>Description</td>
+<tr><td>Description</td>
 <td>任意</td>
 </tr>
-<tr class="row-odd"><td>Attribute</td>
-<td><a href="#id2"><span class="problematic" id="id3">*</span></a>(アスタリスク)</td>
+<tr><td>Attribute</td>
+<td>topic(2) as deviceid,*(アスタリスク)</td>
 </tr>
-<tr class="row-even"><td>Topic Filter</td>
+<tr><td>Topic Filter</td>
 <td>edison/illuminance&lt;任意の番号&gt;</td>
 </tr>
 </tbody>
@@ -111,75 +133,112 @@ EdisonはAWS IoTのトピックにデータをパブリッシュし、AWS IoTで
 <div class="line"><br /></div>
 </div>
 <img alt="_images/5-create-rule-3-1.png" src="_images/5-create-rule-3-1.png" />
+<p>[Add action]をクリックします。</p>
 <img alt="_images/5-create-rule-3-2.png" src="_images/5-create-rule-3-2.png" />
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<p>[Add action]をクリックし、&#8221;Select an action&#8221;から&#8221;Insert a message into a Database table&#8221;を選択し、[Configure action]をクリックします。</p>
+<p>Select an action画面で、&#8221;Select an action&#8221;から&#8221;Sends messages to an Amazon Kinesis stream&#8221;を選択し、[Configure action]をクリックします。</p>
 <img alt="_images/5-create-rule-4-1.png" src="_images/5-create-rule-4-1.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <img alt="_images/5-create-rule-4-2.png" src="_images/5-create-rule-4-2.png" />
-<p>以下の値を入力します。</p>
+<p>&#8220;Configure action&#8221;画面で、以下の値を入力します。</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="52%" />
-<col width="48%" />
+<col width="51%" />
+<col width="49%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">設定項目</th>
+<tr><th class="head">設定項目</th>
 <th class="head">値</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>Table Name</td>
+<tr><td>Stream name</td>
 <td>awsiot-handson-table&lt;任意の番号&gt;</td>
 </tr>
-<tr class="row-odd"><td>Hash Key Value</td>
-<td>${topic(2)}</td>
-</tr>
-<tr class="row-even"><td>Range Key Value</td>
-<td>${timestamp()}</td>
-</tr>
-<tr class="row-odd"><td>Write message data to this column</td>
-<td>value</td>
+<tr><td>Partition key</td>
+<td>timestamp()</td>
 </tr>
 </tbody>
 </table>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<img alt="_images/5-create-rule-4-3.png" src="_images/5-create-rule-4-3.png" />
+<img alt="_images/5-IOT-Configure-Action.png" src="_images/5-IOT-Configure-Action.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>AWS IoTからDynamoDBへデータをPutするためのRoleを作成します。
-&#8220;Choose or create a role to grant AWS IoT access to the DynamoDB resource to perform this action.&#8221;で[Create a new role]をクリックし、ロール名として&#8221;AWSIoTHandsonDynamoDB&#8221;と入力し、再度[Create a new role]をクリックします。
+<p>[Create a new role]をクリックし、AWS IoTからKinesisへトピックを送信するためのRoleを作成します。
+別画面が出てきますので、ロール名として&#8221;AWSIoTHandsonKinesis&#8221;と入力し、再度[Create a new role]をクリックします。
 これによって入力したロール名が選択できるようになるので、作成したロールを選択し、[Upate role]をクリックし、次に[Add action]をクリックします。</p>
-<img alt="_images/5-create-rule-5.png" src="_images/5-create-rule-5.png" />
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<p>&#8220;DynamoDB Action&#8221;が追加されたことを確認したら、[Create rule]をクリックします。</p>
+<p>&#8220;Kinesis Action&#8221;が追加されたことを確認したら、[Create rule]をクリックします。</p>
 <img alt="_images/5-create-rule-6-1.png" src="_images/5-create-rule-6-1.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>ルールが作成されたことを確認します。</p>
 <img alt="_images/5-create-rule-7-1.png" src="_images/5-create-rule-7-1.png" />
+<div class="line-block">
+<div class="line"><br /></div>
 </div>
-<div class="section" id="id4">
-<h2>5.2. プログラムの実行<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+</div>
+<div class="section" id="lambda">
+<h2>5.3. Lambdaの設定<a class="headerlink" href="#lambda" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>サービス：Lambdaに移動し、&#8221;Lambda関数の作成&#8221;をクリックします。</p>
+<img alt="_images/5-Lambda-cretae.png" src="_images/5-Lambda-cretae.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>設計図の選択画面で、フィルターに&#8221;Kinesis&#8221;と入力し、&#8221;kinesis-process-record-python&#8221;をクリックします。</p>
+<img alt="_images/5-Lambda-Blueprint.png" src="_images/5-Lambda-Blueprint.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>&#8220;トリガーの設定&#8221;画面で、以下の値を入力します。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="49%" />
+<col width="51%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">設定項目</th>
+<th class="head">値</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Kinesis ストリーム</td>
+<td>iot_sensor_stream&lt;任意の番号&gt;</td>
+</tr>
+<tr><td>開始位置</td>
+<td>水平トリム</td>
+</tr>
+</tbody>
+</table>
+<img alt="_images/5-Lambda-Trigger.png" src="_images/5-Lambda-Trigger.png" />
+<p>[]次へ]をクリックします。</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>&#8220;関数の設定&#8221;画面で、名前 &#8220;kintone_function&#8221;と入力します。
+コード エントリ タイプで&#8221;S3から...&#8221;を選択し、下記のURLを入力します。</p>
+<div class="highlight-python"><pre>https://s3-ap-northeast-1.amazonaws.com/aws-iot-handson-basic/kintone_1st.py
+https://s3-ap-northeast-1.amazonaws.com/aws-iot-handson-basic/lambda_function.py</pre>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>上のURLが正しい。</p>
+</div>
+<div class="section" id="id2">
+<h2>5.4. プログラムの実行<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>照度センサーから照度データを取得し、AWS IoTのメッセージブローカーへ送信するためのプログラムを実行します。サンプルプログラム内のawsiot-handson-fundamentals配下のsensorに移動し、プログラムを実行します。</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">root</span><span class="nd">@edison</span><span class="p">:</span><span class="o">~</span><span class="n">awsiot</span><span class="o">-</span><span class="n">handson</span><span class="o">-</span><span class="n">fundamentals</span><span class="o">/</span><span class="n">sensor</span><span class="c1"># node main.js  edison/illuminance&lt;任意の番号&gt;</span>
+<div class="highlight-python"><pre>root@edison:~awsiot-handson-fundamentals/sensor# node main.js  edison/illuminance&lt;任意の番号&gt;
 
-<span class="n">Publish</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2015-10-24T14:16:37.305Z&quot;</span><span class="p">,</span><span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="mi">268</span><span class="p">}</span>
-<span class="n">Publish</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2015-10-24T14:16:38.365Z&quot;</span><span class="p">,</span><span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="mi">268</span><span class="p">}</span>
-<span class="n">Publish</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2015-10-24T14:16:39.424Z&quot;</span><span class="p">,</span><span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="mi">271</span><span class="p">}</span>
-<span class="n">Publish</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2015-10-24T14:16:40.484Z&quot;</span><span class="p">,</span><span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="mi">270</span><span class="p">}</span>
-<span class="n">Publish</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;timestamp&quot;</span><span class="p">:</span><span class="s2">&quot;2015-10-24T14:16:41.535Z&quot;</span><span class="p">,</span><span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="mi">272</span><span class="p">}</span>
-</pre></div>
+Publish: {"timestamp":"2015-10-24T14:16:37.305Z","value":268}
+Publish: {"timestamp":"2015-10-24T14:16:38.365Z","value":268}
+Publish: {"timestamp":"2015-10-24T14:16:39.424Z","value":271}
+Publish: {"timestamp":"2015-10-24T14:16:40.484Z","value":270}
+Publish: {"timestamp":"2015-10-24T14:16:41.535Z","value":272}</pre>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -197,45 +256,48 @@ EdisonはAWS IoTのトピックにデータをパブリッシュし、AWS IoTで
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">目次</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">5. センサーデータの送信</a><ul>
-<li><a class="reference internal" href="#aws-iot">5.1. AWS IoT ルールの作成</a></li>
-<li><a class="reference internal" href="#id4">5.2. プログラムの実行</a></li>
+            <h3><a href="index.html">目次</a></h3>
+            <ul>
+<li><a class="reference external" href="#">5. センサーデータの送信</a><ul>
+<li><a class="reference external" href="#kinesis">5.1. Kinesisストリームの作成</a></li>
+<li><a class="reference external" href="#aws-iot">5.2. AWS IoT ルールの作成</a></li>
+<li><a class="reference external" href="#lambda">5.3. Lambdaの設定</a></li>
+<li><a class="reference external" href="#id2">5.4. プログラムの実行</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>前のトピックへ</h4>
-  <p class="topless"><a href="04.html"
-                        title="前の章へ">4. AWS IoT基本設定</a></p>
-  <h4>次のトピックへ</h4>
-  <p class="topless"><a href="06.html"
-                        title="次の章へ">6. LEDのリモート制御</a></p>
-  <div role="note" aria-label="source link">
-    <h3>このページ</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/05.txt"
-            rel="nofollow">ソースコードを表示</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>クイック検索</h3>
-    <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="検索" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+            <h4>前のトピックへ</h4>
+            <p class="topless"><a href="04.html"
+                                  title="前の章へ">4. AWS IoT基本設定</a></p>
+            <h4>次のトピックへ</h4>
+            <p class="topless"><a href="06.html"
+                                  title="次の章へ">6. LEDのリモート制御</a></p>
+            <h3>このページ</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/05.txt"
+                     rel="nofollow">ソースコードを表示</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>クイック検索</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="検索" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -247,12 +309,12 @@ EdisonはAWS IoTのトピックにデータをパブリッシュし、AWS IoTで
         <li class="right" >
           <a href="04.html" title="4. AWS IoT基本設定"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">awsiot-handson-fundamentals 0.0 ドキュメント</a> &#187;</li> 
+        <li><a href="index.html">awsiot-handson-basic v0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2015, aquaviter.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.9 で生成しました。
+    <div class="footer">
+      &copy; Copyright 2017, ikeyoshy.
+      このドキュメントは <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5 で生成しました。
     </div>
   </body>
 </html>

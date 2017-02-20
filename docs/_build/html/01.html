@@ -1,37 +1,31 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>1. イントロダクション &#8212; awsiot-handson-fundamentals 0.0 ドキュメント</title>
-    
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <title>1. イントロダクション &mdash; awsiot-handson-basic v0.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
+        URL_ROOT:    '#',
         VERSION:     '0.0',
-        COLLAPSE_INDEX: false,
+        COLLAPSE_MODINDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="検索" href="search.html" />
-    <link rel="top" title="awsiot-handson-fundamentals 0.0 ドキュメント" href="index.html" />
+    <link rel="top" title="awsiot-handson-basic v0.0 documentation" href="index.html" />
     <link rel="next" title="2. インテルEdisonの設定" href="02.html" />
     <link rel="prev" title="AWS IoT ハンズオン ~基本編~" href="index.html" /> 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
+  <body>
+    <div class="related">
       <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -43,21 +37,21 @@
         <li class="right" >
           <a href="index.html" title="AWS IoT ハンズオン ~基本編~"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">awsiot-handson-fundamentals 0.0 ドキュメント</a> &#187;</li> 
+        <li><a href="index.html">awsiot-handson-basic v0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="id1">
 <h1>1. イントロダクション<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="section" id="id2">
 <h2>1.1. ハンズオンシナリオ<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><strong>シナリオ1: センサーデータの送信</strong></p>
-<p>EdisonからAWS IoTのトピックに照度センサーのデータを送信し、AWS IoTでルールに基づきNoSQLデータベースDynamoDBへの保存を行います。また、しきい値を下回った場合、E-mailでアラートを送信するようにルールを設定します。本ハンズオンにより、センサーからのデータ取得および時系列データの保存、しきい値に対するアクションの手順を確認することができます。</p>
+<p>EdisonからAWS IoTのトピックに照度センサーのデータを送信し、AWS IoTでルールに基づきKinesisへデータを渡し、Lambdaへ送られ、Lambda関数から外部サービスのKintoneへデータを送信します。</p>
 <img alt="_images/senario1.png" src="_images/senario1.png" />
 <div class="line-block">
 <div class="line"><br /></div>
@@ -89,7 +83,7 @@
 <p>AWSコマンドラインでiotおよびiot-dataを実行できるようにご利用のPCの設定をお願いします。
 インストールの手順はこちらのとおりです。</p>
 <blockquote>
-<div><a class="reference external" href="https://aws.amazon.com/jp/register-flow/">https://aws.amazon.com/jp/register-flow/</a></div></blockquote>
+<a class="reference external" href="https://aws.amazon.com/jp/register-flow/">https://aws.amazon.com/jp/register-flow/</a></blockquote>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -104,14 +98,14 @@
 <p><strong>Amazon DynamoDB</strong></p>
 <p>マネージド型のNoSQLサービスで、高速で予測可能なパフォーマンスとシームレスな拡張性が特長です。本ハンズオンでは照度センサーで測定したデータを格納する時系列データベースとして利用します。</p>
 <blockquote>
-<div><a class="reference external" href="https://aws.amazon.com/jp/dynamodb/">https://aws.amazon.com/jp/dynamodb/</a></div></blockquote>
+<a class="reference external" href="https://aws.amazon.com/jp/dynamodb/">https://aws.amazon.com/jp/dynamodb/</a></blockquote>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><strong>Amazon CloudWatch</strong></p>
 <p>AWSクラウドリソースとAWSで実行するアプリケーションのモニタリングサービスです。メトリクスの収集、ログファイルの収集が可能です。本ハンズオンではCloudWatch Logsを利用してAWS IoTのログを収集、閲覧します。</p>
 <blockquote>
-<div><a class="reference external" href="https://aws.amazon.com/jp/cloudwatch/">https://aws.amazon.com/jp/cloudwatch/</a></div></blockquote>
+<a class="reference external" href="https://aws.amazon.com/jp/cloudwatch/">https://aws.amazon.com/jp/cloudwatch/</a></blockquote>
 </div>
 </div>
 
@@ -119,45 +113,46 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">目次</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">1. イントロダクション</a><ul>
-<li><a class="reference internal" href="#id2">1.1. ハンズオンシナリオ</a></li>
-<li><a class="reference internal" href="#id3">1.2. 利用するデバイス、アプリケーション、サービス</a></li>
+            <h3><a href="index.html">目次</a></h3>
+            <ul>
+<li><a class="reference external" href="#">1. イントロダクション</a><ul>
+<li><a class="reference external" href="#id2">1.1. ハンズオンシナリオ</a></li>
+<li><a class="reference external" href="#id3">1.2. 利用するデバイス、アプリケーション、サービス</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>前のトピックへ</h4>
-  <p class="topless"><a href="index.html"
-                        title="前の章へ">AWS IoT ハンズオン ~基本編~</a></p>
-  <h4>次のトピックへ</h4>
-  <p class="topless"><a href="02.html"
-                        title="次の章へ">2. インテルEdisonの設定</a></p>
-  <div role="note" aria-label="source link">
-    <h3>このページ</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/01.txt"
-            rel="nofollow">ソースコードを表示</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>クイック検索</h3>
-    <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="検索" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+            <h4>前のトピックへ</h4>
+            <p class="topless"><a href="index.html"
+                                  title="前の章へ">AWS IoT ハンズオン ~基本編~</a></p>
+            <h4>次のトピックへ</h4>
+            <p class="topless"><a href="02.html"
+                                  title="次の章へ">2. インテルEdisonの設定</a></p>
+            <h3>このページ</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/01.txt"
+                     rel="nofollow">ソースコードを表示</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>クイック検索</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="検索" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -169,12 +164,12 @@
         <li class="right" >
           <a href="index.html" title="AWS IoT ハンズオン ~基本編~"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">awsiot-handson-fundamentals 0.0 ドキュメント</a> &#187;</li> 
+        <li><a href="index.html">awsiot-handson-basic v0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2015, aquaviter.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.9 で生成しました。
+    <div class="footer">
+      &copy; Copyright 2017, ikeyoshy.
+      このドキュメントは <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5 で生成しました。
     </div>
   </body>
 </html>

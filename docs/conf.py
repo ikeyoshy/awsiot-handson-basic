@@ -43,8 +43,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'awsiot-handson-fundamentals'
-copyright = u'2015, aquaviter'
+project = u'awsiot-handson-basic'
+copyright = u'2017, ikeyoshy'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
