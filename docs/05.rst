@@ -152,11 +152,12 @@ Kinesis ストリーム                          iot_sensor_stream<任意の番�
 ::
 
   https://s3-ap-northeast-1.amazonaws.com/aws-iot-handson-basic/kintone_1st.py
-  https://s3-ap-northeast-1.amazonaws.com/aws-iot-handson-basic/lambda_function.py
 
 |
 
-上のURLが正しい。
+IAM role = lambdabasicexecution
+
+|
 
 プログラムの実行
 ================
