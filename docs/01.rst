@@ -7,7 +7,7 @@
 
 **シナリオ1: センサーデータの送信**
 
-EdisonからAWS IoTのトピックに照度センサーのデータを送信し、AWS IoTでルールに基づきKinesisへデータを渡し、Lambdaへ送られ、Lambda関数から外部サービスのKintoneへデータを送信します。
+EdisonからAWS IoTのトピックに照度センサーのデータを送信し、AWS IoTでルールに基づきKinesisへデータを渡し、Lambdaへ送り、Lambda関数で外部サービスへデータを送信します。
 
 .. image:: images/senario1.png
 
