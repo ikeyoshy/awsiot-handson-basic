@@ -176,7 +176,9 @@ IAM role = lambdabasicexecution
 
 |
 
-AWS IoTのTestにて、dison/illuminance<任意の番号> を入力すれば、トピックがPublishされていることが分かります。
+AWS IoTのTestにて、"Subscription topic"に "edison/illuminance<任意の番号>" を入力すれば、トピックがPublishされていることが分かります。
+
+|
 
 センサーデータを確認する
 ================
