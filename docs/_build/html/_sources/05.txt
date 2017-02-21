@@ -176,15 +176,7 @@ IAM role = lambdabasicexecution
 
 |
 
-DynamoDBのテーブルを確認し、データが格納されていることを確認してくださ
-い。マネージメントコンソールのトップ画面に戻り、DynamoDBを選択します。
-画面左のメニューの"Tables"をクリックし、テーブル一覧から
-"awsiot-handson-table<任意の番号>"をクリックします。メイン画面上部の
-"Item"タブをクリックし、テーブルのデータを表示します。
-
-.. image:: images/5-dynamodb-1-1.png
-
-|
+AWS IoTのTestにて、dison/illuminance<任意の番号> を入力すれば、トピックがPublishされていることが分かります。
 
 センサーデータを確認する
 ================
